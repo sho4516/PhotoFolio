@@ -1,0 +1,51 @@
+.albumBox{
+    width: 200px;
+    height: 160px;
+    background-color: #eeeeee;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    transition: all 0.5s ease-in-out;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 8px;
+    margin-bottom: 1rem;
+}
+
+.albumBox:hover{
+    background-color: #0277ff;
+}
+
+.albumImageHolder{
+    position: relative;
+    height: 80%;
+    width: 95%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.albumImageHolder img{
+    position: relative;
+    width: 40%;
+    height: 40%;
+    object-fit: contain;
+}
+
+.albumNameHolder{
+    position: relative;
+    width: 100%;
+    height: max-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    word-wrap: break-word;
+}
+
+.albumNameHolder h3{
+    font-weight: bolder;
+    font-size: larger;
+    padding: 3px;
+}

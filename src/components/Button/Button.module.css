@@ -1,0 +1,20 @@
+.button {
+  width: max-content;
+  height: 100%;
+  padding: 0.5rem;
+  border-radius: 10px;
+  font-size: medium;
+  font-weight: bolder;
+}
+
+.btnAdd {
+  border: 2px solid #0077ff;
+  background-color: #e8f1ff;
+  color: #0077ff;
+}
+
+.btnCancel {
+  border: 2px solid #ff1300;
+  background-color: #ffeae7;
+  color: #ff1300;
+}
