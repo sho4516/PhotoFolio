@@ -12,6 +12,7 @@ const AlbumList = () => {
   const [currentAlbumDetails, setCurrentAlbumDetails] = useState({
     open: false,
     id: "",
+    name: ""
   });
   const [albumList, setAlbumList] = useState([]);
 
@@ -27,8 +28,8 @@ const AlbumList = () => {
     });
   }, []);
 
-  const handleAlbumClick = (id) => {
-    setCurrentAlbumDetails({ open: true, id: id });
+  const handleAlbumClick = (id, name) => {
+    setCurrentAlbumDetails({ open: true, id: id, name: name });
   };
 
   const handleBackClick = () => {
@@ -69,7 +70,7 @@ const AlbumList = () => {
           </div>
         </>
       ) : (
-        <ImageList handleBackClick={handleBackClick} id={currentAlbumDetails.id}/>
+        <ImageList handleBackClick={handleBackClick} id={currentAlbumDetails.id} name={currentAlbumDetails.name}/>
       )}
     </div>
   );

@@ -2,10 +2,11 @@ import styles from "./Album.module.css";
 
 const Album = ({ albumDetails, handleAlbumClick }) => {
   const id = albumDetails.id;
+  const name = albumDetails.albumName;
   return (
     <div
       onClick={() => {
-        handleAlbumClick(id);
+        handleAlbumClick(id, name);
       }}
       className={styles.albumBox}
     >
