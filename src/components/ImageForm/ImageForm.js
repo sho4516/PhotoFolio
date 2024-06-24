@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import TextButton from "../TextButton/TextButton";
 import styles from "./ImageForm.module.css";
-import { arrayUnion, doc, setDoc, updateDoc } from "firebase/firestore";
+import { addDoc, arrayUnion, collection, doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebaseinit";
 
 const ImageForm = ({ name, id }) => {
@@ -21,10 +21,7 @@ const ImageForm = ({ name, id }) => {
       url: url,
     };
 
-    const albumRef = doc(db, "albums", id);
-    await updateDoc(albumRef, {
-      images: arrayUnion(data),
-    });
+    await addDoc(collection(db, "albums", id, "images"), data);
 
     titleRef.current.value="";
     urlRef.current.value="";

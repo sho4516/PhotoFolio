@@ -1,4 +1,4 @@
-import { doc, onSnapshot } from "firebase/firestore";
+import { collection, doc, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../../firebaseinit";
 import styles from "./ImageList.module.css";
@@ -11,12 +11,20 @@ const ImageList = ({ id, name, handleBackClick }) => {
   const [showImageForm, setShowImageForm] = useState(false);
 
   useEffect(() => {
-    const unsub = onSnapshot(doc(db, "albums", id), (doc) => {
-      const res = doc.data();
-      console.log(res);
-      setImages(res.images);
-    });
-  }, []);
+    const unsub = onSnapshot(
+      collection(db, "albums", id, "images"),
+      (snapshot) => {
+        const images = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setImages(images);
+      }
+    );
+
+    // Clean up the subscription on component unmount
+    return () => unsub();
+  }, [id]);
 
   return (
     <>
@@ -57,6 +65,24 @@ const ImageList = ({ id, name, handleBackClick }) => {
             />
           </div>
         </div>
+        {images.length > 0 && (
+          <div className={styles.imageContainer}>
+            {images.map((image, index) => {
+              return (
+                <div className={styles.imageHolder}>
+                  <img
+                    src={image.url}
+                    key={image.id}
+                    className={styles.image}
+                  />
+                  <div className={styles.imageNameHolder}>
+                    <h3>{image.name}</h3>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </>
   );

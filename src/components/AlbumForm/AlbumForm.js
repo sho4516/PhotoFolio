@@ -19,8 +19,9 @@ const AlbumForm = () => {
     async function handle() {
       const docRef = await addDoc(collection(db, "albums"), {
         albumName: inputRef.current.value,
-        images: [],
       });
+      const albumId = docRef.id;
+      await addDoc(collection(db, `albums/${albumId}/images`), {});
     }
 
     handle();
