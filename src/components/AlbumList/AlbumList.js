@@ -31,6 +31,10 @@ const AlbumList = () => {
     setCurrentAlbumDetails({ open: true, id: id });
   };
 
+  const handleBackClick = () => {
+    setCurrentAlbumDetails({ open: false, id: "" });
+  };
+
   return (
     <div className={styles.mainContainer}>
       {!currentAlbumDetails.open ? (
@@ -65,7 +69,7 @@ const AlbumList = () => {
           </div>
         </>
       ) : (
-        <ImageList />
+        <ImageList handleBackClick={handleBackClick} id={currentAlbumDetails.id}/>
       )}
     </div>
   );

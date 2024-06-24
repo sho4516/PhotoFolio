@@ -5,6 +5,7 @@
   border-radius: 10px;
   font-size: medium;
   font-weight: bolder;
+  cursor: pointer;
 }
 
 .btnAdd {
