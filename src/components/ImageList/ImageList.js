@@ -1,5 +1,5 @@
 import { collection, doc, onSnapshot } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { db } from "../../firebaseinit";
 import styles from "./ImageList.module.css";
 import Button from "../Button/Button";
@@ -24,6 +24,7 @@ const ImageList = ({ id, name, handleBackClick }) => {
   const [loading, setLoading] = useState(true);
   const [filterText, setFilterText] = useState("");
   const [filteredImages, setFilteredImages] = useState([]);
+  const searchInputRef = useRef(null);
 
   useEffect(() => {
     // Added dummy timeout to showcase spinner
@@ -109,6 +110,7 @@ const ImageList = ({ id, name, handleBackClick }) => {
               <div className={styles.searchComponent}>
                 {!showSearch && (
                   <input
+                    ref={searchInputRef}
                     value={filterText}
                     onChange={(e) => {
                       setFilterText(e.target.value);
@@ -128,6 +130,11 @@ const ImageList = ({ id, name, handleBackClick }) => {
                     setShowSearch(!showSearch);
                     setFilterText("");
                     setFilteredImages(images);
+                    if (showSearch) {
+                      setTimeout(() => {
+                        searchInputRef.current.focus();
+                      }, 500);
+                    }
                   }}
                   src={showSearch ? "search.png" : "clear.png"}
                 ></img>
