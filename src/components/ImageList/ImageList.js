@@ -8,7 +8,13 @@ import ImageForm from "../ImageForm/ImageForm";
 const ImageList = ({ id, name, handleBackClick }) => {
   const [images, setImages] = useState([]);
   const [showSearch, setShowSearch] = useState(true);
-  const [showImageForm, setShowImageForm] = useState(false);
+  const [imageFormProps, setImageFormProps] = useState({
+    showImageForm: false,
+    isUpdate: false,
+    imageId: "",
+    imageName: "",
+    imageUrl: "",
+  });
 
   useEffect(() => {
     const unsub = onSnapshot(
@@ -22,13 +28,29 @@ const ImageList = ({ id, name, handleBackClick }) => {
       }
     );
 
-    // Clean up the subscription on component unmount
     return () => unsub();
   }, [id]);
 
+  const handleEditClick = (image) => {
+    setImageFormProps({
+      showImageForm: true,
+      isUpdate: true,
+      imageId: image.id,
+      imageName: image.name,
+      imageUrl: image.url,
+    });
+  };
+
   return (
     <>
-      {showImageForm && <ImageForm name={name} id={id} />}
+      {imageFormProps.showImageForm && (
+        <ImageForm
+          albumName={name}
+          albumId={id}
+          imageFormProps={imageFormProps}
+          setImageFormProps={setImageFormProps}
+        />
+      )}
       <div className={styles.imageListContainer}>
         <div className={styles.imageListContainerHeading}>
           <div>
@@ -56,8 +78,14 @@ const ImageList = ({ id, name, handleBackClick }) => {
           )}
           <div>
             <Button
-              onClick={() => setShowImageForm(!showImageForm)}
-              isVisible={showImageForm}
+              onClick={() => {
+                setImageFormProps((prev) => {
+                  let props = { ...prev };
+                  props.showImageForm = !props.showImageForm;
+                  return props;
+                });
+              }}
+              isVisible={imageFormProps.showImageForm}
               textWhenVisible="Cancel"
               textWhenNotVisible="Add Image"
               classWhenVisible="btnCancel"
@@ -77,6 +105,19 @@ const ImageList = ({ id, name, handleBackClick }) => {
                   />
                   <div className={styles.imageNameHolder}>
                     <h3>{image.name}</h3>
+                  </div>
+                  <div className={styles.updateBox}>
+                    <div
+                      onClick={() => {
+                        handleEditClick(image);
+                      }}
+                      className={styles.updateBoxImageHolder}
+                    >
+                      <img src="edit.png" alt="edit"></img>
+                    </div>
+                    <div className={styles.updateBoxImageHolder}>
+                      <img src="trash-bin.png" alt="delete"></img>
+                    </div>
                   </div>
                 </div>
               );
