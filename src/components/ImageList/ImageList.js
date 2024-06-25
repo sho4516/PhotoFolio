@@ -4,6 +4,7 @@ import { db } from "../../firebaseinit";
 import styles from "./ImageList.module.css";
 import Button from "../Button/Button";
 import ImageForm from "../ImageForm/ImageForm";
+import { deleteDoc } from "firebase/firestore";
 
 const ImageList = ({ id, name, handleBackClick }) => {
   const [images, setImages] = useState([]);
@@ -39,6 +40,16 @@ const ImageList = ({ id, name, handleBackClick }) => {
       imageName: image.name,
       imageUrl: image.url,
     });
+  };
+
+  const handleDeleteClick = async (imageId) => {
+    try {
+      const imageRef = doc(db, "albums", id, "images", imageId);
+      await deleteDoc(imageRef);
+      console.log(`Image with ID: ${imageId} deleted successfully`);
+    } catch (error) {
+      console.error("Error deleting image: ", error);
+    }
   };
 
   return (
@@ -115,7 +126,12 @@ const ImageList = ({ id, name, handleBackClick }) => {
                     >
                       <img src="edit.png" alt="edit"></img>
                     </div>
-                    <div className={styles.updateBoxImageHolder}>
+                    <div
+                      onClick={() => {
+                        handleDeleteClick(image.id);
+                      }}
+                      className={styles.updateBoxImageHolder}
+                    >
                       <img src="trash-bin.png" alt="delete"></img>
                     </div>
                   </div>

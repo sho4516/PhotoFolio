@@ -39,7 +39,7 @@ const ImageForm = ({
         imageFormProps.imageId
       );
       await updateDoc(imageRef, data);
-      setImageFormProps((prev) => {
+      return setImageFormProps((prev) => {
         let props = { ...prev };
         props.showImageForm = false;
         return props;

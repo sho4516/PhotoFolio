@@ -140,7 +140,7 @@
   justify-content: space-between;
   visibility: hidden;
   transform: scale(0.8);
-  transition: visibility 0.2s, transform 0.2s;
+  transition: transform 0.2s;
 }
 
 .updateBoxImageHolder {
@@ -155,6 +155,7 @@
   object-fit: contain;
   transition: all 0.2s ease-in-out;
   z-index: 1000;
+  cursor: pointer;
 }
 
 .imageHolder:hover .updateBox {
