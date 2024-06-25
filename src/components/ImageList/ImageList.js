@@ -24,6 +24,7 @@ const ImageList = ({ id, name, handleBackClick }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Added dummy timeout to showcase spinner
     setTimeout(() => {
       const unsub = onSnapshot(
         collection(db, "albums", id, "images"),

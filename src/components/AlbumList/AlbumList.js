@@ -20,6 +20,7 @@ const AlbumList = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Added dummy timeout to showcase spinner
     setTimeout(() => {
       const unsub = onSnapshot(collection(db, "albums"), (doc) => {
         const res = doc.docs.map((item) => {
