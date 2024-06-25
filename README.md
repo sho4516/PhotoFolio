@@ -58,11 +58,10 @@ To get a local copy up and running, follow these simple steps:
 
 ## Usage
 
-- User Registration/Login: Register or log in to access your albums.
 - Create Album: Use the "Add Album" button to create a new album.
 - Add Images: Open an album and use the "Add Image" button to upload images.
 - View Images: Click on any image to view it in the carousel mode.
-- Edit/Delete: Use the update and delete buttons to manage your albums and images.
+- Edit/Delete: Use the update and delete buttons to manage your images.
 
 ## Contribution
 
