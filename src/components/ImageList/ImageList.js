@@ -5,6 +5,7 @@ import styles from "./ImageList.module.css";
 import Button from "../Button/Button";
 import ImageForm from "../ImageForm/ImageForm";
 import { deleteDoc } from "firebase/firestore";
+import Carousel from "../Carousel/Carousel";
 
 const ImageList = ({ id, name, handleBackClick }) => {
   const [images, setImages] = useState([]);
@@ -16,6 +17,8 @@ const ImageList = ({ id, name, handleBackClick }) => {
     imageName: "",
     imageUrl: "",
   });
+  const [isCarouselOpen, setIsCarouselOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     const unsub = onSnapshot(
@@ -32,7 +35,8 @@ const ImageList = ({ id, name, handleBackClick }) => {
     return () => unsub();
   }, [id]);
 
-  const handleEditClick = (image) => {
+  const handleEditClick = (image, e) => {
+    e.stopPropagation();
     setImageFormProps({
       showImageForm: true,
       isUpdate: true,
@@ -42,7 +46,8 @@ const ImageList = ({ id, name, handleBackClick }) => {
     });
   };
 
-  const handleDeleteClick = async (imageId) => {
+  const handleDeleteClick = async (imageId, e) => {
+    e.stopPropagation();
     try {
       const imageRef = doc(db, "albums", id, "images", imageId);
       await deleteDoc(imageRef);
@@ -51,6 +56,15 @@ const ImageList = ({ id, name, handleBackClick }) => {
       console.error("Error deleting image: ", error);
     }
   };
+
+  const handleCloseCarousel = () => {
+    setIsCarouselOpen(false);
+  };
+
+  const handleImageClick = (index) => {
+    setCurrentImageIndex(index);
+    setIsCarouselOpen(true);
+  }
 
   return (
     <>
@@ -108,7 +122,12 @@ const ImageList = ({ id, name, handleBackClick }) => {
           <div className={styles.imageContainer}>
             {images.map((image, index) => {
               return (
-                <div className={styles.imageHolder}>
+                <div
+                  onClick={() => {
+                    handleImageClick(index);
+                  }}
+                  className={styles.imageHolder}
+                >
                   <img
                     src={image.url}
                     key={image.id}
@@ -119,16 +138,16 @@ const ImageList = ({ id, name, handleBackClick }) => {
                   </div>
                   <div className={styles.updateBox}>
                     <div
-                      onClick={() => {
-                        handleEditClick(image);
+                      onClick={(e) => {
+                        handleEditClick(image, e);
                       }}
                       className={styles.updateBoxImageHolder}
                     >
                       <img src="edit.png" alt="edit"></img>
                     </div>
                     <div
-                      onClick={() => {
-                        handleDeleteClick(image.id);
+                      onClick={(e) => {
+                        handleDeleteClick(image.id, e);
                       }}
                       className={styles.updateBoxImageHolder}
                     >
@@ -139,6 +158,13 @@ const ImageList = ({ id, name, handleBackClick }) => {
               );
             })}
           </div>
+        )}
+        {isCarouselOpen && (
+          <Carousel
+            handleCloseCarousel={handleCloseCarousel}
+            currentImageIndex={currentImageIndex}
+            images={images}
+          />
         )}
       </div>
     </>
