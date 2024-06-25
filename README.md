@@ -1,70 +1,76 @@
-# Getting Started with Create React App
+# PhotoFolio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+PhotoFolio is a sophisticated photo album management application that allows users to create and view photo albums with ease. The application supports album creation, image uploads, and provides a carousel view for an enhanced image browsing experience.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Album Management**: Create and view albums.
+- **Image Management**: Add, update, delete, and view images within albums.
+- **Image Carousel**: View images in a carousel format for a seamless browsing experience.
+- **Real-Time Updates**: Real-time updates using Firestore to keep data synchronized across all devices.
+- **Toast Notifications**: Real-time feedback for user actions using React-toastify.
+- **Loading Indicators**: Display loading spinners to enhance user experience during data fetch operations.
 
-### `npm start`
+## Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Frontend**:
+  - [React](https://reactjs.org/): A JavaScript library for building user interfaces.
+  - [React-toastify](https://fkhadra.github.io/react-toastify/): For providing beautiful notifications.
+  - [react-spinner-material](https://www.npmjs.com/package/react-spinner-material): For displaying loading spinners.
+  - [CSS Modules](https://github.com/css-modules/css-modules): For styling components locally.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Backend**:
+  - [Firebase Firestore](https://firebase.google.com/products/firestore): A flexible, scalable database for mobile, web, and server development from Firebase and Google Cloud
 
-### `npm test`
+## Getting Started
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+To get a local copy up and running, follow these simple steps:
 
-### `npm run build`
+### Prerequisites
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- [Node.js](https://nodejs.org/en/download/) (v14 or higher)
+- [npm](https://www.npmjs.com/get-npm) (v6 or higher)
+- Firebase account
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Installation
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. Clone the repository
+   ```sh
+   git clone https://github.com/sho4516/PhotoFolio.git
 
-### `npm run eject`
+2. Navigate to the project directory
+   ```sh
+   cd PhotoFolio
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+3. Install NPM packages
+   ```sh
+   npm install
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+4. Create a Firebase project and obtain your Firebase configuration credentials. Replace the Firebase config object in firebaseinit.js with your credentials.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Running the application
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. Start the development server
+   ```sh
+   npm start
+   
+2. Open http://localhost:3000 to view it in the browser.
 
-## Learn More
+## Usage
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- User Registration/Login: Register or log in to access your albums.
+- Create Album: Use the "Add Album" button to create a new album.
+- Add Images: Open an album and use the "Add Image" button to upload images.
+- View Images: Click on any image to view it in the carousel mode.
+- Edit/Delete: Use the update and delete buttons to manage your albums and images.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Contribution
 
-### Code Splitting
+### Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- Fork the Project
+- Create your Feature Branch (git checkout -b feature/AmazingFeature)
+- Commit your Changes (git commit -m 'Add some AmazingFeature')
+- Push to the Branch (git push origin feature/AmazingFeature)
+- Open a Pull Request
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
