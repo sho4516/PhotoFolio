@@ -51,10 +51,14 @@ const ImageForm = ({
       });
     }
 
+    handleClearClick();
+  };
+
+  const handleClearClick = () => {
     titleRef.current.value = "";
     urlRef.current.value = "";
     titleRef.current.focus();
-  };
+  }
 
   return (
     <div className={styles.formContainer}>
@@ -65,7 +69,7 @@ const ImageForm = ({
         <input ref={titleRef} type="text" placeholder="Title"></input>
         <input ref={urlRef} type="text" placeholder="Image URL"></input>
         <div className={styles.buttonContainer}>
-          <TextButton color="#ff1300" text="Clear" />
+          <TextButton onClick={handleClearClick} color="#ff1300" text="Clear" />
           <TextButton
             onClick={handleSubmit}
             color="#0277ff"

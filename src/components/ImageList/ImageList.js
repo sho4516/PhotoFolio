@@ -22,6 +22,8 @@ const ImageList = ({ id, name, handleBackClick }) => {
   const [isCarouselOpen, setIsCarouselOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [filterText, setFilterText] = useState("");
+  const [filteredImages, setFilteredImages] = useState([]);
 
   useEffect(() => {
     // Added dummy timeout to showcase spinner
@@ -34,6 +36,7 @@ const ImageList = ({ id, name, handleBackClick }) => {
             ...doc.data(),
           }));
           setImages(images);
+          setFilteredImages(images);
           setLoading(false);
         }
       );
@@ -105,10 +108,27 @@ const ImageList = ({ id, name, handleBackClick }) => {
               <h1>Images of {name}</h1>
               <div className={styles.searchComponent}>
                 {!showSearch && (
-                  <input type="text" placeholder="Search..."></input>
+                  <input
+                    value={filterText}
+                    onChange={(e) => {
+                      setFilterText(e.target.value);
+                      let filteredImages = images.filter((item) => {
+                        return item.name
+                          .toUpperCase()
+                          .includes(e.target.value.toLocaleUpperCase());
+                      });
+                      setFilteredImages(filteredImages);
+                    }}
+                    type="text"
+                    placeholder="Search..."
+                  ></input>
                 )}
                 <img
-                  onClick={() => setShowSearch(!showSearch)}
+                  onClick={() => {
+                    setShowSearch(!showSearch);
+                    setFilterText("");
+                    setFilteredImages(images);
+                  }}
                   src={showSearch ? "search.png" : "clear.png"}
                 ></img>
               </div>
@@ -147,7 +167,7 @@ const ImageList = ({ id, name, handleBackClick }) => {
         )}
         {images.length > 0 && !loading && (
           <div className={styles.imageContainer}>
-            {images.map((image, index) => {
+            {filteredImages.map((image, index) => {
               return (
                 <div
                   onClick={() => {
