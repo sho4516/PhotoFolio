@@ -3,6 +3,8 @@ import TextButton from "../TextButton/TextButton";
 import styles from "./ImageForm.module.css";
 import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebaseinit";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 const ImageForm = ({
   albumName,
@@ -30,6 +32,7 @@ const ImageForm = ({
 
     if (!imageFormProps.isUpdate) {
       await addDoc(collection(db, "albums", albumId, "images"), data);
+      toast.success("Image added successfully");
     } else {
       const imageRef = doc(
         db,
@@ -39,6 +42,8 @@ const ImageForm = ({
         imageFormProps.imageId
       );
       await updateDoc(imageRef, data);
+      toast.success("Image updated successfully");
+      console.log("Fter toast");
       return setImageFormProps((prev) => {
         let props = { ...prev };
         props.showImageForm = false;

@@ -6,26 +6,32 @@ import { db } from "../../firebaseinit";
 import Album from "../Album/Album";
 import ImageList from "../ImageList/ImageList";
 import Button from "../Button/Button";
+import { ToastContainer } from "react-toastify";
+import Spinner from "react-spinner-material";
 
 const AlbumList = () => {
   const [showAlbumForm, setShowAlbumForm] = useState(false);
   const [currentAlbumDetails, setCurrentAlbumDetails] = useState({
     open: false,
     id: "",
-    name: ""
+    name: "",
   });
   const [albumList, setAlbumList] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsub = onSnapshot(collection(db, "albums"), (doc) => {
-      const res = doc.docs.map((item) => {
-        return {
-          id: item.id,
-          ...item.data(),
-        };
+    setTimeout(() => {
+      const unsub = onSnapshot(collection(db, "albums"), (doc) => {
+        const res = doc.docs.map((item) => {
+          return {
+            id: item.id,
+            ...item.data(),
+          };
+        });
+        setAlbumList(res);
+        setLoading(false);
       });
-      setAlbumList(res);
-    });
+    }, 1000);
   }, []);
 
   const handleAlbumClick = (id, name) => {
@@ -38,6 +44,7 @@ const AlbumList = () => {
 
   return (
     <div className={styles.mainContainer}>
+      <ToastContainer />
       {!currentAlbumDetails.open ? (
         <>
           {showAlbumForm && <AlbumForm />}
@@ -57,20 +64,35 @@ const AlbumList = () => {
                 />
               </div>
             </div>
-            <div className={styles.albumList}>
-              {albumList.map((item) => {
-                return (
-                  <Album
-                    handleAlbumClick={handleAlbumClick}
-                    albumDetails={item}
-                  />
-                );
-              })}
-            </div>
+            {loading ? (
+              <div className={styles.spinnerContainer}>
+                <Spinner
+                  size={60}
+                  spinnerColor={"#333"}
+                  spinnerWidth={2}
+                  visible={true}
+                />
+              </div>
+            ) : (
+              <div className={styles.albumList}>
+                {albumList.map((item) => {
+                  return (
+                    <Album
+                      handleAlbumClick={handleAlbumClick}
+                      albumDetails={item}
+                    />
+                  );
+                })}
+              </div>
+            )}
           </div>
         </>
       ) : (
-        <ImageList handleBackClick={handleBackClick} id={currentAlbumDetails.id} name={currentAlbumDetails.name}/>
+        <ImageList
+          handleBackClick={handleBackClick}
+          id={currentAlbumDetails.id}
+          name={currentAlbumDetails.name}
+        />
       )}
     </div>
   );

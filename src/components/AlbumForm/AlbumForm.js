@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react";
 import styles from "./AlbumForm.module.css";
 import { db } from "../../firebaseinit";
-import { collection, addDoc } from "firebase/firestore"; 
+import { collection, addDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
 
 const AlbumForm = () => {
   const inputRef = useRef();
@@ -20,8 +21,8 @@ const AlbumForm = () => {
       const docRef = await addDoc(collection(db, "albums"), {
         albumName: inputRef.current.value,
       });
+      toast.success("Album added successfully");
       const albumId = docRef.id;
-      await addDoc(collection(db, `albums/${albumId}/images`), {});
     }
 
     handle();

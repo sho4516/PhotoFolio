@@ -6,6 +6,8 @@ import Button from "../Button/Button";
 import ImageForm from "../ImageForm/ImageForm";
 import { deleteDoc } from "firebase/firestore";
 import Carousel from "../Carousel/Carousel";
+import { toast } from "react-toastify";
+import Spinner from "react-spinner-material";
 
 const ImageList = ({ id, name, handleBackClick }) => {
   const [images, setImages] = useState([]);
@@ -19,20 +21,24 @@ const ImageList = ({ id, name, handleBackClick }) => {
   });
   const [isCarouselOpen, setIsCarouselOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsub = onSnapshot(
-      collection(db, "albums", id, "images"),
-      (snapshot) => {
-        const images = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setImages(images);
-      }
-    );
+    setTimeout(() => {
+      const unsub = onSnapshot(
+        collection(db, "albums", id, "images"),
+        (snapshot) => {
+          const images = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          setImages(images);
+          setLoading(false);
+        }
+      );
+    }, 1000);
 
-    return () => unsub();
+    //return () => unsub();
   }, [id]);
 
   const handleEditClick = (image, e) => {
@@ -52,6 +58,7 @@ const ImageList = ({ id, name, handleBackClick }) => {
       const imageRef = doc(db, "albums", id, "images", imageId);
       await deleteDoc(imageRef);
       console.log(`Image with ID: ${imageId} deleted successfully`);
+      toast.success("Image deleted successfully");
     } catch (error) {
       console.error("Error deleting image: ", error);
     }
@@ -64,7 +71,12 @@ const ImageList = ({ id, name, handleBackClick }) => {
   const handleImageClick = (index) => {
     setCurrentImageIndex(index);
     setIsCarouselOpen(true);
-  }
+    setImageFormProps((prev) => {
+      let props = { ...prev };
+      props.showImageForm = false;
+      return props;
+    });
+  };
 
   return (
     <>
@@ -107,6 +119,10 @@ const ImageList = ({ id, name, handleBackClick }) => {
                 setImageFormProps((prev) => {
                   let props = { ...prev };
                   props.showImageForm = !props.showImageForm;
+                  props.isUpdate = false;
+                  props.imageId = "";
+                  props.imageName = "";
+                  props.imageUrl = "";
                   return props;
                 });
               }}
@@ -118,7 +134,17 @@ const ImageList = ({ id, name, handleBackClick }) => {
             />
           </div>
         </div>
-        {images.length > 0 && (
+        {loading && (
+          <div className={styles.spinnerContainer}>
+            <Spinner
+              size={60}
+              spinnerColor={"#333"}
+              spinnerWidth={2}
+              visible={true}
+            />
+          </div>
+        )}
+        {images.length > 0 && !loading && (
           <div className={styles.imageContainer}>
             {images.map((image, index) => {
               return (
